@@ -4,6 +4,8 @@ import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import Characters from "./pages/CharactersPage";
 import NotFound from "./pages/NotFound";
+import CharacterPage from "./pages/CharacterPage";
+
 
 
 
@@ -23,6 +25,10 @@ const router = createBrowserRouter([
                 {
                     path:"characters/",
                     element:<Characters/>
+                },
+                {
+                    path:"character/:id",
+                    element:<CharacterPage/>
                 }
             ],
             errorElement: <NotFound />
