@@ -1,47 +1,81 @@
-import CharacterCard from "../components/CharacterCard"
+import CharacterCard from "../components/CharacterCard";
 import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Button } from "react-bootstrap";
+import { Button, Container, Row } from "react-bootstrap";
 
-function Characters () {
-    const [characters, setCharacters] = useState({})
-    const [page, setpage] = useState(1)
-    const [numOfPages, setNumOfPages] = useState()
-    
-    useEffect(() => {
-        const callResponse = async () => {
+function Characters() {
+  const [characters, setCharacters] = useState([]);
+  const [nextPage, setNextPage] = useState("");
+  const [prevPage, setPrevPage] = useState("");
+
+  const callResponse = async () => {
+    try {
+      const response = await axios.get(
+        `https://rickandmortyapi.com/api/character/`
+      );
+      setCharacters(response.data.results);
+      setNextPage(response.data.info.next);
+      setPrevPage(response.data.info.prev);
+    } catch (error) {
+      console.log("Error fetching data", error);
+    }
+  };
+  const handleNewPage = async (page) => {
+    try {
+      const newRes = await axios.get(page);
+      setCharacters(newRes.data.results);
+      setNextPage(newRes.data.info.next);
+      setPrevPage(newRes.data.info.prev);
+    } catch (error) {
+      console.log("Error fetching data", error);
+    }
+  };
+
+  useEffect(() => {
+    callResponse();
+  }, []);
+  console.log(characters)
+
+  return (
+    <>
+      <Container>
+        <h1 className="mt-5 mb-4">All of Characters in the Known Universe</h1>
+        <Row>
+          {characters.map((char, idx) => (
             
-                const url = `https://rickandmortyapi.com/api/character/?page=${page}`;
-                const response = await axios.get(url);
-                setNumOfPages(response.data.info.pages)
-                setCharacters(response.data.results)
-                
-                
-        }
-        callResponse()
-         }, [page])
-         console.log(`Characters:`, characters)
-         
-       
-   
+            <CharacterCard
+              key={idx}
+              id={char.id}
+              image={char.image}
+              name={char.name}
+              status={char.status}
+              species={char.species}
+              origin={char.origin.name}
+            />
+            
+          
+          ))}
+        </Row>
         
-    return (
-        <>
-        <h2>These are characters</h2>
-        <CharacterCard />
-        <div >
-        <Button variant="outline-secondary" style={{marginRight:"2rem"}} onClick={() => page > 1 ? setpage(page - 1) : alert("Thats all the characters")}>Prev</Button>
-        <i>Page {page} </i>
-        <Button variant="outline-secondary" style={{marginLeft:"2rem"}} onClick={() => page < numOfPages ? setpage(page + 1) : alert("Thats all the characters")}>Next</Button>
+        <div className="mt-4 text-center">
+          {prevPage && (
+            <Button variant="secondary" onClick={() => handleNewPage(prevPage)}>
+              PrevPage
+            </Button>
+          )}
+          {nextPage && (
+            <Button variant="secondary" onClick={() => handleNewPage(nextPage)}>
+              Next Page
+            </Button>
+          )}
         </div>
-        </>
-    )
+      </Container>
+    </>
+  );
 }
 
 export default Characters;
-
-
-
 
 // const myPromises = [];
 //             for (let i = 1; i <= 5; i++) {
@@ -52,25 +86,81 @@ export default Characters;
 //             }
 
 //             const allResponses = await Promise.all(myPromises);
-            
-//             const data = allResponses.reduce( (acc, page) => {
 
+//             const data = allResponses.reduce( (acc, page) => {
 
 //                 acc = [...acc, ...page.data.results];
 //                 return acc;
 //             }, []);
 //             console.log("data", data);
 
+// console.log(numOfPages)
 
- // console.log(numOfPages)
+// axios
+//     .request(`https://rickandmortyapi.com/api/character/`)
+//     .then((reponse) => response.data.info.next ?)
+//     .then(function (response) {
+//         let responseData = response.data
+//         console.log(responseData)
+//     })
 
-            // axios
-            //     .request(`https://rickandmortyapi.com/api/character/`)
-            //     .then((reponse) => response.data.info.next ?)
-            //     .then(function (response) {
-            //         let responseData = response.data
-            //         console.log(responseData)
-            //     })
-           
-        // }
-        // callResponse()
+// }
+// callResponse()
+
+// eslint-disable-next-line no-unused-vars
+// import React, { useState, useEffect } from 'react';
+// import { Card, Container, Row, Col, Button } from 'react-bootstrap';
+// import axios from 'axios';
+// function CharactersPage() {
+//   const [characters, setCharacters] = useState([]);
+//   const [nextPage, setNextPage] = useState('');
+//   useEffect(() => {
+//     const fetchCharacters = async () => {
+//       try {
+//         const response = await axios.get('https://rickandmortyapi.com/api/character');
+//         setCharacters(response.data.results);
+//         setNextPage(response.data.info.next);
+//       } catch (error) {
+//         console.error('Error fetching data:', error);
+//       }
+//     };
+//     fetchCharacters();
+//   }, []);
+//   const handleNextPage = async () => {
+//     try {
+//       const response = await axios.get(nextPage);
+//       setCharacters(response.data.results);
+//       setNextPage(response.data.info.next);
+//       window.scrollTo(0, 0); // Scroll to the top of the page
+//     } catch (error) {
+//       console.error('Error fetching data:', error);
+//     }
+//   };
+//   return (
+//     <Container>
+//       <h1 className="mt-5 mb-4">Rick and Morty Characters</h1>
+//       <Row>
+//         {characters.map(character => (
+//           <Col md={4} className="mb-4" key={character.id}>
+//             <Card>
+//               <Card.Img variant="top" src={character.image} />
+//               <Card.Body>
+//                 <Card.Title>{character.name}</Card.Title>
+//                 <Card.Text>Status: {character.status}</Card.Text>
+//                 <Card.Text>Species: {character.species}</Card.Text>
+//                 <Card.Text>Origin: {character.origin.name}</Card.Text>
+//               </Card.Body>
+//             </Card>
+//           </Col>
+//         ))}
+//       </Row>
+//       {/* nextPage && is a conditional rendering technique in JavaScript often used in React applications, known as the "short-circuit" evaluation. */}
+//       {nextPage && (
+//         <div className="mt-4 text-center">
+//           <Button onClick={handleNextPage} variant="primary">Next Page</Button>
+//         </div>
+//       )}
+//     </Container>
+//   );
+// }
+// export default CharactersPage;
