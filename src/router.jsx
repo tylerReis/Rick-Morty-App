@@ -23,7 +23,7 @@ const router = createBrowserRouter([
                     element:<AboutPage/>
                 },
                 {
-                    path:"characters/",
+                    path:"characters/:page",
                     element:<Characters/>
                 },
                 {
