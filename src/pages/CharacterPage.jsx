@@ -7,9 +7,7 @@ import {
   Row,
   Card,
   Col,
-  CardHeader,
   ListGroup,
-  CardBody,
 } from "react-bootstrap";
 
 function CharacterPage() {

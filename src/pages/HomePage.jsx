@@ -1,4 +1,4 @@
-import { Image, Container, Alert } from "react-bootstrap";
+import { Container, Alert } from "react-bootstrap";
 function HomePage() {
   const backgroundImageStyle = {
     backgroundImage: 'url("https://cdn.vox-cdn.com/thumbor/9HfS_-ugBoHDaLskP6ssJ8_nIkY=/0x22:1584x851/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/24415978/rick_and_morty_s4_image.png")',

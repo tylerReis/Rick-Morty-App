@@ -8,12 +8,11 @@ function Characters() {
   const [characters, setCharacters] = useState([]);
   const [nextPage, setNextPage] = useState("");
   const [prevPage, setPrevPage] = useState("");
-  const {setPageUrl, pageUrl} = useOutletContext();
+  const { setPageUrl, pageUrl } = useOutletContext();
 
-  const checkedUrl = pageUrl ? pageUrl : 'https://rickandmortyapi.com/api/character/'
-  
-  
-  
+  const checkedUrl = pageUrl
+    ? pageUrl
+    : "https://rickandmortyapi.com/api/character/";
 
   const callResponse = async () => {
     try {
@@ -25,33 +24,42 @@ function Characters() {
       console.log("Error fetching data", error);
     }
   };
-  
 
   useEffect(() => {
     callResponse();
   }, [pageUrl]);
-  // console.log(characters)
 
   return (
     <>
       <Container>
-      <Row className="mt-4 justify-content-between">
-      {nextPage && (
-          <Button variant="secondary" onClick={() => setPageUrl(nextPage)}>
-            Next Page
-          </Button>
-        )}
-        {prevPage && (
-          <Button variant="secondary" onClick={() => setPageUrl(prevPage)}>
-            Prev Page
-          </Button>
-        )}
+      <Container className="d-flex justify-content-center align-items-center mt-md-2">
+          <Row
+            className="justify-content-center text-center"
+            style={{ height: "100%" }}>
+            <h1>All of the Characters in the Known Universe</h1>
+          </Row>
+        </Container>
+        <Container className="d-flex flex-row justify-content-center align-items-center mt-md-3">
+          {prevPage && (
+            <Button
+              className="mr-2 mb-2 mb-md-4"
+              variant="secondary"
+              onClick={() => setPageUrl(prevPage)}>
+              Prev Page
+            </Button>
+          )}
+          {nextPage && (
+            <Button
+              className="mb-2 mb-md-4"
+              variant="secondary"
+              onClick={() => setPageUrl(nextPage)}>
+              Next Page
+            </Button>
+          )}
+        </Container>
         
-      </Row>
-        <h1 className="mt-5 mb-4">All of Characters in the Known Universe</h1>
         <Row>
           {characters.map((char, idx) => (
-            
             <CharacterCard
               key={idx}
               id={char.id}
@@ -61,19 +69,17 @@ function Characters() {
               species={char.species}
               origin={char.origin.name}
             />
-            
-          
           ))}
         </Row>
-        
+
         <div className="mt-4 text-center">
           {prevPage && (
-            <Button variant="secondary" onClick={() => setPageUrl(prevPage)}>
+            <Button className="mr-2 mb-2 mb-md-3" variant="secondary" onClick={() => setPageUrl(prevPage)}>
               Prev Page
             </Button>
           )}
           {nextPage && (
-            <Button variant="secondary" onClick={() => setPageUrl(nextPage)}>
+            <Button className="mb-2 mb-md-3" variant="secondary" onClick={() => setPageUrl(nextPage)}>
               Next Page
             </Button>
           )}
