@@ -1,6 +1,6 @@
 import CharacterCard from "../components/CharacterCard";
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import axios from "axios";
 import { Button, Container, Row } from "react-bootstrap";
 
@@ -8,12 +8,16 @@ function Characters() {
   const [characters, setCharacters] = useState([]);
   const [nextPage, setNextPage] = useState("");
   const [prevPage, setPrevPage] = useState("");
+  const {setPageUrl, pageUrl} = useOutletContext();
+
+  const checkedUrl = pageUrl ? pageUrl : 'https://rickandmortyapi.com/api/character/'
+  
+  
+  
 
   const callResponse = async () => {
     try {
-      const response = await axios.get(
-        `https://rickandmortyapi.com/api/character/`
-      );
+      const response = await axios.get(checkedUrl);
       setCharacters(response.data.results);
       setNextPage(response.data.info.next);
       setPrevPage(response.data.info.prev);
@@ -21,25 +25,29 @@ function Characters() {
       console.log("Error fetching data", error);
     }
   };
-  const handleNewPage = async (page) => {
-    try {
-      const newRes = await axios.get(page);
-      setCharacters(newRes.data.results);
-      setNextPage(newRes.data.info.next);
-      setPrevPage(newRes.data.info.prev);
-    } catch (error) {
-      console.log("Error fetching data", error);
-    }
-  };
+  
 
   useEffect(() => {
     callResponse();
-  }, []);
-  console.log(characters)
+  }, [pageUrl]);
+  // console.log(characters)
 
   return (
     <>
       <Container>
+      <Row className="mt-4 justify-content-between">
+      {nextPage && (
+          <Button variant="secondary" onClick={() => setPageUrl(nextPage)}>
+            Next Page
+          </Button>
+        )}
+        {prevPage && (
+          <Button variant="secondary" onClick={() => setPageUrl(prevPage)}>
+            Prev Page
+          </Button>
+        )}
+        
+      </Row>
         <h1 className="mt-5 mb-4">All of Characters in the Known Universe</h1>
         <Row>
           {characters.map((char, idx) => (
@@ -60,12 +68,12 @@ function Characters() {
         
         <div className="mt-4 text-center">
           {prevPage && (
-            <Button variant="secondary" onClick={() => handleNewPage(prevPage)}>
-              PrevPage
+            <Button variant="secondary" onClick={() => setPageUrl(prevPage)}>
+              Prev Page
             </Button>
           )}
           {nextPage && (
-            <Button variant="secondary" onClick={() => handleNewPage(nextPage)}>
+            <Button variant="secondary" onClick={() => setPageUrl(nextPage)}>
               Next Page
             </Button>
           )}

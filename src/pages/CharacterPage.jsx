@@ -51,7 +51,7 @@ function CharacterPage() {
               <div
                 style={{
                   backgroundColor:
-                    character.status == "Alive" ? "green" : "red",
+                    character.status == "Alive" ? "#2E8B57" : character.status == "unknown" ? "#EAEA4b" : "#BA2B00",
                 }}>
                 <Card.Header
                   className={
@@ -61,14 +61,16 @@ function CharacterPage() {
                 </Card.Header>
               </div>
               <Card.Body>
-                    <Card.Title className={"fw-bold text-large"}>{character.name}</Card.Title>
+                    <Card.Title className={"fw-bold text-large text-center"} style={{fontSize:"1.8em"}}>{character.name}</Card.Title>
                 </Card.Body>
                 <ListGroup variant="flush">
-                    <ListGroup.Item variant="info">Species: {character.species}</ListGroup.Item>
-                    <ListGroup.Item variant="info">Gender: {character.gender}</ListGroup.Item>
-                    <ListGroup.Item variant="info">Origin: {character.origin && character.origin.name}</ListGroup.Item>
-                    <ListGroup.Item variant="info">Location: {character.location && character.location.name}</ListGroup.Item>
-                    <ListGroup.Item variant="info">First Episode: {firstEpisode.name}</ListGroup.Item>
+                    <ListGroup.Item variant="info" style={{color:'black', backgroundColor:"#ADD8E6"}}>Species: {character.species}</ListGroup.Item>
+                    <ListGroup.Item variant="info" style={{color:'black', backgroundColor:"#ADD8E6"}}>Gender: {character.gender}</ListGroup.Item>
+                    <ListGroup.Item variant="info" style={character.origin && character.origin.name === 'unknown' ? {color:'black', fontWeight:'bold', backgroundColor:'#EEA41C'}:{color:"black", backgroundColor:"#ADD8E6"}}>
+                    Origin: {character.origin && character.origin.name}
+                    </ListGroup.Item>
+                    <ListGroup.Item variant="info" style={{color:'black', backgroundColor:"#ADD8E6"}}>Location: {character.location && character.location.name}</ListGroup.Item>
+                    <ListGroup.Item variant="info" style={{color:'black', backgroundColor:"#ADD8E6"}}>First Episode: {firstEpisode.name}</ListGroup.Item>
                 </ListGroup>
                 <Card.Body>
                 <Button variant="primary" onClick={() => console.log("This will favorite")}> 

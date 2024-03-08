@@ -1,8 +1,16 @@
 import { Outlet, Link } from "react-router-dom";
-import { Navbar, Nav, Row, Col, Container } from "react-bootstrap";
+import { Navbar, Nav, Row, Col, Container, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import "./App.css";
 
 function App() {
+
+  const [pageUrl, setPageUrl] = useState();
+  const navigate = useNavigate();
+
+  // const pageNavigator = (url) => {
+  //   navigate(url)}
   return (
     <>
       <div>
@@ -15,21 +23,28 @@ function App() {
               }}>Rick and Morty</Link>
           </Navbar.Brand>
           <Nav>
-            <Link to={"about/"} style={{
+            <Button onClick={() => navigate("/about/") }>About</Button>
+            {/* <Link to={"about/"} style={{
                 textDecoration: 'none',
                 marginLeft: "2px",
                 marginRight: "10px",
                 color: "white"
-              }}>About</Link>
+              }}>About</Link> */}
           </Nav>
           <Nav>
-            <Link to={"characters/"} style={{
+            <Button onClick={() => {
+              navigate(`/characters/${1}`)
+              setPageUrl('https://rickandmortyapi.com/api/character/')
+              }}>
+                Characters
+                </Button>
+            {/* <Link to={"/characters/https://rickandmortyapi.com/api/character"} style={{
                 textDecoration: 'none',
                 color: "white"
-              }}>Characters</Link>
+              }}>Characters</Link> */}
           </Nav>
         </Navbar>
-        <Outlet />
+        <Outlet context={{pageUrl, setPageUrl}}/>
       </div>
     </>
   );
