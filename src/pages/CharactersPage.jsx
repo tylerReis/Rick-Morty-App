@@ -8,7 +8,7 @@ function Characters() {
   const [characters, setCharacters] = useState([]);
   const [nextPage, setNextPage] = useState("");
   const [prevPage, setPrevPage] = useState("");
-  const { setPageUrl, pageUrl } = useOutletContext();
+  const { setPageUrl, pageUrl, setFavorites, favorites } = useOutletContext();
 
   const checkedUrl = pageUrl
     ? pageUrl
@@ -26,9 +26,10 @@ function Characters() {
   };
 
   useEffect(() => {
+    
     callResponse();
   }, [pageUrl]);
-
+console.log(favorites)
   return (
     <>
       <Container>
@@ -68,6 +69,8 @@ function Characters() {
               status={char.status}
               species={char.species}
               origin={char.origin.name}
+              setFavProp={setFavorites}
+              favProp={favorites}
             />
           ))}
         </Row>

@@ -19,6 +19,9 @@ function NavBar({setPageUrl}) {
                 Characters
                 </Button>
           </Nav>
+          <Nav>
+            <Button variant="link" onClick={() => navigate("/favorites/") }>Favorites</Button>
+          </Nav>
         </Navbar>
 
     )
