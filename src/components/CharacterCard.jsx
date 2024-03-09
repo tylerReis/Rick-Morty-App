@@ -17,7 +17,7 @@ function CharacterCard({
   const routeToCharPage = (id) => {
     navigate(`/character/${id}`);
   };
-
+// checks to see if already favorited
   const favChecker = (favToCheckId) => {
      let ans = true
      for (const favChar of favProp){
@@ -27,6 +27,7 @@ function CharacterCard({
      }
      return ans
   }
+  // checks to see if favorited and if less than 6 favs
   const addFav = () => {
     const newFav = {
         id,
